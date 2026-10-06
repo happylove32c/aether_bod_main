@@ -1,0 +1,104 @@
+{
+  "stations": [
+    {
+      "87.9": {
+        "name": "JAZZ STREAMR",
+        "url": "https://jazz.streamr.ru/jazz-64.mp3",
+        "genre": "jazz"
+      },
+      "87.5": {
+        "name": "WALM CLASSIC",
+        "url": "https://icecast.walmradio.com:8443/classic",
+        "genre": "jazz"
+      },
+      "81.7": {
+        "name": "TRADITIONAL CHRISTIAN MUSIC",
+        "url": "https://icecast.walmradio.com:8443/walm2",
+        "genre": "christian"
+      },
+      "81.3": {
+        "name": "PREMIUM LOFI",
+        "url": "https://lofi.stream.laut.fm/lofi",
+        "genre": "lofi"
+      },
+      "81.5": {
+        "name": "ZENO LOFI",
+        "url": "https://stream.zeno.fm/0r0xa792kwzuv",
+        "genre": "lofi"
+      },
+      "95.7": {
+        "name": "NIGHTWAVE PLAZA",
+        "url": "https://radio.plaza.one/mp3",
+        "genre": "ambient"
+      },
+      "88.5": {
+        "name": "HIP HOP FM",
+        "url": "https://hiphop.stream.laut.fm/hiphop",
+        "genre": "hiphop"
+      },
+      "88.7": {
+        "name": "ZENO AFROBEAT FM",
+        "url": "https://stream.zeno.fm/sunttmiemsbuv",
+        "genre": "afrobeat"
+      },
+      "91.3": {
+        "name": "ZENO AFRICA FM",
+        "url": "https://stream-285.surfernetwork.com/wukx4gxxe48uv",
+        "genre": "afrobeat"
+      },
+      "85.9": {
+        "name": "24/7 CHRISTIAN SERMON",
+        "url": "https://stream-284.surfernetwork.com/nzkms9bduuhvv",
+        "genre": "christian"
+      },
+      "95.9": {
+        "name": "GIC RADIO STATION",
+        "url": "https://stream-284.surfernetwork.com/yh8mc90psuhvv",
+        "genre": "christian"
+      },
+      "95.6": {
+        "name": "GIC RADIO STATION 2",
+        "url": "https://zas1.ndx.co.za:8140/stream",
+        "genre": "christian"
+      },
+      "95.8": {
+        "name": "ZENO RAYPOWER FM",
+        "url": "https://streamlive2.hearthis.at:8000/9065169.ogg",
+        "genre": "news"
+      },
+      "81.4" : {
+        "name": "ELECTRONIC FM DETROIT",
+        "url": "http://icecast.ofdoom.com:8000/burst.mp3",
+        "genre": "electronic"
+      },
+      "91.2" :{
+        "name": "FIELD WAVES FM LIVE",
+        "url" : "http://streams.radio.co:80/s0aa1e6f4a/listen",
+        "genre" : "ambient"
+      },
+      "96.0" : {
+        "name" : "BBC RADIO 1",
+        "url" : "http://as-hls-ww-live.akamaized.net/pool_01505109/live/ww/bbc_radio_one/bbc_radio_one.isml/bbc_radio_one-audio%3d96000.norewind.m3u8",
+        "genre" : "news"
+      },
+      "91.7" : {
+        "name" : "SLEEPBOT AMBIENT RADIO",
+        "url" : "http://primarystream.sleepbot.com:8218/seb",
+        "genre" : "ambient"
+      },
+      "81.9" : {
+        "name" :"DUBLAB AMBIENCE RADIO",
+        "url" : "https://dublab.out.airtime.pro/dublab_a",
+        "genre" : "electronic"
+      }
+
+      
+
+      
+
+      
+
+
+    }
+  ]
+}

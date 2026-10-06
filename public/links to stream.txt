@@ -1,0 +1,15 @@
+https://ice1.somafm.com/dronezone-128-mp3
+https://radio.plaza.one/mp3
+https://icecast.walmradio.com:8443/walm2
+https://icecast.walmradio.com:8443/classic
+https://jazz.streamr.ru/jazz-64.mp3
+https://hiphop.stream.laut.fm/hiphop
+https://ice1.somafm.com/groovesalad-128-mp3
+https://ice1.somafm.com/metal-128-mp3
+https://lofi.stream.laut.fm/lofi
+https://radio.plaza.one/mp3
+https://ice1.somafm.com/dronezone-128-mp3
+https://stream.zeno.fm/0r0xa792kwzuv
+https://stream-285.surfernetwork.com/wukx4gxxe48uv
+https://stream-284.surfernetwork.com/nzkms9bduuhvv
+ // http://s3.viastreaming.net:8835/

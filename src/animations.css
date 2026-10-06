@@ -1,0 +1,890 @@
+/* ==========================================================================
+   AETHER FM — BRUTALIST HARDWARE MOTION SYSTEM
+   Low-end Android WebView Optimized (Transform & Opacity Only)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. DESIGN TOKENS & VARIABLES
+   -------------------------------------------------------------------------- */
+@property --accent {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #ffffff;
+}
+
+:root {
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-snap: cubic-bezier(0.12, 0.8, 0.32, 1);
+  
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 380ms;
+
+  --accent: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   2. APP SHELL & ROUTE TRANSITIONS (App.jsx)
+   -------------------------------------------------------------------------- */
+.screen-view-container {
+  will-change: transform, opacity;
+}
+
+.screen-view-enter {
+  animation: screenEnter var(--dur-base) var(--ease-snap) forwards;
+}
+
+.screen-view-container[data-direction="forward"] {
+  animation: screenEnterForward var(--dur-base) var(--ease-snap) forwards;
+}
+
+.screen-view-container[data-direction="back"] {
+  animation: screenEnterBack var(--dur-base) var(--ease-snap) forwards;
+}
+
+@keyframes screenEnterForward {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes screenEnterBack {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. HOME PAGE (HomePage.jsx)
+   -------------------------------------------------------------------------- */
+.fx-title-enter {
+  animation: titleSnap var(--dur-slow) var(--ease-snap) forwards;
+}
+
+@keyframes titleSnap {
+  0% {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fx-count-tick {
+  display: inline-block;
+  animation: countFlip var(--dur-base) var(--ease-out) forwards;
+}
+
+@keyframes countFlip {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Clock ticking flick */
+.fx-clock-tick {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-snap), opacity var(--dur-fast) var(--ease-out);
+}
+
+.fx-clock-tick.ticking {
+  animation: clockFlick var(--dur-fast) var(--ease-snap);
+}
+
+@keyframes clockFlick {
+  0% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(-2px); opacity: 0.7; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.fx-clock-icon {
+  transition: transform var(--dur-slow) var(--ease-snap);
+}
+
+/* Speed indicator status dots */
+.fx-speed-dot {
+  transition: transform var(--dur-fast) var(--ease-snap), opacity var(--dur-fast) var(--ease-out);
+}
+
+.fx-speed-testing {
+  animation: speedPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes speedPulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.fx-speed-online {
+  animation: speedFlash 0.4s var(--ease-out) 1;
+}
+
+@keyframes speedFlash {
+  0% { transform: scale(1.4); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.fx-speed-offline {
+  animation: speedStepBlink 0.4s steps(2, start) infinite;
+}
+
+@keyframes speedStepBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.fx-speed-val {
+  transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-snap);
+}
+
+/* --------------------------------------------------------------------------
+   4. LOADING STATES & SKELETONS
+   -------------------------------------------------------------------------- */
+.fx-loading-container {
+  animation: loaderFadeIn var(--dur-base) var(--ease-out) forwards;
+}
+
+@keyframes loaderFadeIn {
+  0% { opacity: 0; transform: translateY(4px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.tuner-ruler {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 24px;
+  padding: 0 4px;
+}
+
+.tuner-tick {
+  width: 2px;
+  height: 12px;
+  background-color: #333;
+  transition: background-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-snap);
+}
+
+.tuner-tick:nth-child(5n) {
+  height: 20px;
+  background-color: #555;
+}
+
+.tuner-tick.active {
+  background-color: var(--accent, #00FF66);
+  transform: scaleY(1.2);
+}
+
+.skeleton-shimmer-bar {
+  background: linear-gradient(90deg, #111 0%, #222 50%, #111 100%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s infinite var(--ease-in-out);
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.fx-loader-exit {
+  animation: loaderSteppedExit var(--dur-fast) steps(3, end) forwards;
+}
+
+@keyframes loaderSteppedExit {
+  0% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.98); }
+}
+
+/* --------------------------------------------------------------------------
+   5. GENRE CARD GRID (StationCards.jsx)
+   -------------------------------------------------------------------------- */
+.stagger-item {
+  animation: staggerIn var(--dur-base) var(--ease-snap) both;
+  will-change: transform, opacity;
+}
+
+/* Diagonal wave cascading delays */
+.stagger-0 { animation-delay: 0ms; }
+.stagger-1 { animation-delay: 40ms; }
+.stagger-2 { animation-delay: 80ms; }
+.stagger-3 { animation-delay: 120ms; }
+.stagger-4 { animation-delay: 160ms; }
+.stagger-5 { animation-delay: 200ms; }
+.stagger-6 { animation-delay: 240ms; }
+.stagger-7 { animation-delay: 280ms; }
+.stagger-8 { animation-delay: 320ms; }
+.stagger-9 { animation-delay: 360ms; }
+
+@keyframes staggerIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card-radio-surface {
+  position: relative;
+  z-index: 1;
+  transition: transform var(--dur-fast) var(--ease-snap), background-color var(--dur-fast) var(--ease-out);
+  will-change: transform;
+}
+
+/* Hard solid offset shadow via pseudo-element on hover */
+@media (hover: hover) {
+  .card-radio-surface::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000;
+    z-index: -1;
+    transform: translate(0, 0);
+    transition: transform var(--dur-fast) var(--ease-snap);
+    pointer-events: none;
+  }
+
+  .card-radio-surface:hover {
+    transform: translate(-4px, -4px);
+  }
+
+  .card-radio-surface:hover::after {
+    transform: translate(4px, 4px);
+  }
+
+  .card-radio-surface:hover .fx-genre-icon {
+    transform: rotate(-8deg) scale(1.1);
+  }
+
+  .card-radio-surface:hover .fx-count-badge {
+    background-color: #000;
+    color: #fff !important;
+  }
+
+  .card-radio-surface:hover .fx-btn-wipe::before {
+    transform: scaleX(1);
+  }
+
+  .card-radio-surface:hover .fx-play-icon-nudge {
+    transform: translateX(2px);
+  }
+}
+
+.fx-genre-icon {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-snap);
+}
+
+.fx-count-badge {
+  transition: background-color var(--dur-fast) steps(2, start), color var(--dur-fast) steps(2, start);
+}
+
+/* Tactile Press State */
+.btn-radio-press {
+  transition: transform var(--dur-fast) var(--ease-snap);
+  will-change: transform;
+}
+
+.btn-radio-press:active {
+  transform: scale(0.96) translate(1px, 1px) !important;
+}
+
+.card-radio-surface:active {
+  transform: translate(0, 0) !important;
+}
+
+.card-radio-surface:active::after {
+  transform: translate(0, 0) !important;
+}
+
+/* 3-Bar Mini Equalizer */
+.fx-mini-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+
+.fx-mini-eq-bar {
+  width: 2px;
+  height: 100%;
+  background-color: currentColor;
+  transform-origin: bottom;
+  animation: miniEqPulse 0.6s ease-in-out infinite alternate;
+}
+
+.fx-mini-eq-bar:nth-child(1) { animation-delay: 0ms; }
+.fx-mini-eq-bar:nth-child(2) { animation-delay: 200ms; }
+.fx-mini-eq-bar:nth-child(3) { animation-delay: 400ms; }
+
+@keyframes miniEqPulse {
+  0% { transform: scaleY(0.2); }
+  100% { transform: scaleY(1); }
+}
+
+/* Button Left-to-Right ScaleX Wipe */
+.fx-btn-wipe {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.fx-btn-wipe::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--accent, #ffffff);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-fast) var(--ease-snap);
+}
+
+.fx-play-icon-nudge {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-snap);
+}
+
+/* --------------------------------------------------------------------------
+   6. GENRE PAGE (GenrePage.jsx)
+   -------------------------------------------------------------------------- */
+.fx-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform var(--dur-fast) var(--ease-snap);
+}
+
+@media (hover: hover) {
+  .fx-back-btn:hover .fx-back-arrow {
+    transform: translateX(-3px);
+  }
+  .fx-back-btn:hover .fx-back-text {
+    transform: translateX(-1px);
+  }
+}
+
+.fx-back-arrow, .fx-back-text {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-snap);
+}
+
+.fx-genre-title-reveal {
+  animation: titleReveal var(--dur-base) var(--ease-snap) forwards;
+}
+
+@keyframes titleReveal {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px) scaleX(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scaleX(1);
+  }
+}
+
+/* Heart Button Pop & Accent Ripple */
+.fx-heart-btn {
+  position: relative;
+  transition: transform var(--dur-fast) var(--ease-snap);
+}
+
+.heart-pop {
+  animation: heartPopAnim 0.3s var(--ease-snap);
+}
+
+@keyframes heartPopAnim {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+.fx-heart-ripple::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid var(--accent, #FF2D55);
+  transform: scale(1);
+  opacity: 1;
+  animation: heartRippleAnim 0.35s var(--ease-out) forwards;
+  pointer-events: none;
+}
+
+@keyframes heartRippleAnim {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.fx-heart-off {
+  animation: heartOffAnim 0.2s var(--ease-in) forwards;
+}
+
+@keyframes heartOffAnim {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.8); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Persistent Thin Accent Bar along card top edge */
+.fx-playing-top-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--accent, #00FF66);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform var(--dur-base) var(--ease-snap);
+}
+
+.fx-playing-top-bar.active {
+  transform: scaleX(1);
+}
+
+/* --------------------------------------------------------------------------
+   7. NOW PLAYING (NowPlaying.jsx)
+   -------------------------------------------------------------------------- */
+/* Empty State Broadcast Pulses */
+.fx-empty-tower {
+  position: relative;
+}
+
+.fx-empty-tower::before, .fx-empty-tower::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  margin-top: -40px;
+  margin-left: -40px;
+  border: 2px solid #555;
+  border-radius: 50%;
+  transform: scale(0.6);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fx-empty-tower::before {
+  animation: broadcastPulse 2.4s infinite var(--ease-out);
+}
+
+.fx-empty-tower::after {
+  animation: broadcastPulse 2.4s infinite var(--ease-out) 1.2s;
+}
+
+@keyframes broadcastPulse {
+  0% { transform: scale(0.5); opacity: 0.8; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.fx-topbar-item {
+  animation: topbarIn var(--dur-base) var(--ease-snap) forwards;
+}
+
+@keyframes topbarIn {
+  0% { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.fx-genre-badge {
+  transition: background-color var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out);
+}
+
+/* Frequency Numeral Roll */
+.fx-freq-numeral {
+  display: inline-block;
+  transition: transform var(--dur-base) var(--ease-snap), opacity var(--dur-base) var(--ease-out);
+  will-change: transform, opacity;
+}
+
+.fx-freq-numeral.changing {
+  animation: freqRoll var(--dur-base) var(--ease-snap);
+}
+
+@keyframes freqRoll {
+  0% { transform: translateY(0); opacity: 1; }
+  49% { transform: translateY(-100%); opacity: 0; }
+  50% { transform: translateY(100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Status Badge & Shake */
+.fx-badge-shake {
+  animation: badgeShake 0.4s var(--ease-snap) 1;
+}
+
+@keyframes badgeShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+
+.fx-station-icon-snap {
+  transition: transform var(--dur-base) var(--ease-snap), background-color var(--dur-base) var(--ease-out);
+}
+
+.fx-station-icon-snap.snap {
+  animation: iconSnapAnim var(--dur-base) var(--ease-snap);
+}
+
+@keyframes iconSnapAnim {
+  0% { transform: scale(0.85) rotate(-6deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.fx-station-name {
+  transition: transform var(--dur-base) var(--ease-snap), opacity var(--dur-base) var(--ease-out);
+}
+
+.fx-station-name.changing {
+  animation: stationNameSlide var(--dur-base) var(--ease-snap);
+}
+
+@keyframes stationNameSlide {
+  0% { transform: translateX(12px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Spectrogram 24 Bars GPU-Only scaleY */
+.now-playing-bar {
+  flex: 1;
+  height: 100%;
+  background-color: var(--accent, #ffffff);
+  transform-origin: bottom;
+  transform: scaleY(0.08);
+  transition: transform 0.25s var(--ease-out), background-color var(--dur-base) var(--ease-out);
+  will-change: transform;
+}
+
+.now-playing-bar.playing {
+  animation: nowPlayingBarScale 0.45s ease-in-out infinite alternate;
+}
+
+/* Phase staggers for 24 bars */
+.now-playing-bar:nth-child(4n+1) { animation-duration: 0.38s; }
+.now-playing-bar:nth-child(4n+2) { animation-duration: 0.48s; }
+.now-playing-bar:nth-child(4n+3) { animation-duration: 0.42s; }
+.now-playing-bar:nth-child(4n+4) { animation-duration: 0.52s; }
+
+@keyframes nowPlayingBarScale {
+  0% { transform: scaleY(0.12); }
+  100% { transform: scaleY(1); }
+}
+
+/* Frequency Dial Bar Marker */
+/* Exception Rule 1: Frequency tuner marker position transition using left property for exact percentage placement on dial */
+.fx-freq-marker {
+  transition: left var(--dur-slow) var(--ease-snap);
+  will-change: left;
+}
+
+.fx-marker-glow {
+  position: relative;
+}
+
+.fx-marker-glow.playing::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background-color: #00FF66;
+  opacity: 0.4;
+  animation: markerGlowBreathe 1.8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes markerGlowBreathe {
+  0% { opacity: 0.2; transform: scaleX(1); }
+  100% { opacity: 0.7; transform: scaleX(1.8); }
+}
+
+/* Play/Pause Button Compression & Connecting Sweep */
+.btn-play-pause-compression:active {
+  transform: scale(0.96);
+}
+
+.fx-connecting-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.fx-connecting-sweep::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: connectingSweep 1s steps(6, end) infinite;
+}
+
+@keyframes connectingSweep {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(200%); }
+}
+
+/* Stepper Buttons & Counter Roll */
+@media (hover: hover) {
+  .fx-stepper-btn:hover .fx-stepper-icon-prev {
+    transform: translateX(-3px);
+  }
+  .fx-stepper-btn:hover .fx-stepper-icon-next {
+    transform: translateX(3px);
+  }
+}
+
+.fx-stepper-icon-prev, .fx-stepper-icon-next {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-snap);
+}
+
+.fx-counter-roll {
+  display: inline-block;
+  transition: transform var(--dur-fast) var(--ease-snap), opacity var(--dur-fast) var(--ease-out);
+}
+
+.fx-counter-roll.ticked {
+  animation: counterRollAnim var(--dur-fast) var(--ease-snap);
+}
+
+@keyframes counterRollAnim {
+  0% { transform: translateY(-6px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Volume Slider Cross-Browser Custom Styling */
+.fx-volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: #333;
+  outline: none;
+  margin: 0;
+}
+
+.fx-volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: var(--accent, #ffffff);
+  border: 2px solid #000;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-snap);
+}
+
+.fx-volume-slider::-webkit-slider-thumb:active {
+  transform: scale(1.3);
+}
+
+.fx-volume-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: var(--accent, #ffffff);
+  border: 2px solid #000;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-snap);
+}
+
+.fx-volume-slider::-moz-range-thumb:active {
+  transform: scale(1.3);
+}
+
+.icon-crossfade {
+  transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-snap);
+}
+
+.fx-vol-flash {
+  animation: volFlashAnim 0.3s var(--ease-out) 1;
+}
+
+@keyframes volFlashAnim {
+  0% { background-color: #FF2D55; color: #fff; }
+  100% { background-color: transparent; }
+}
+
+.fx-stream-connected-flash {
+  animation: streamConnectedFlash 1.5s var(--ease-out) forwards;
+}
+
+@keyframes streamConnectedFlash {
+  0% { opacity: 1; color: #00FF66; }
+  50% { opacity: 1; color: #00FF66; }
+  100% { opacity: 0.8; }
+}
+
+/* --------------------------------------------------------------------------
+   8. MINI PLAYER (MiniPlayer.jsx)
+   -------------------------------------------------------------------------- */
+.fx-mini-player-slide {
+  animation: miniPlayerSlideUp var(--dur-slow) var(--ease-snap) forwards;
+  will-change: transform;
+}
+
+@keyframes miniPlayerSlideUp {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(0); }
+}
+
+/* Global scaleY Equalizer Bars for Mini Player */
+.fx-mini-bounce-bar {
+  width: 3px;
+  height: 20px;
+  background-color: var(--accent, #ffffff);
+  transform-origin: bottom;
+  transform: scaleY(0.2);
+  animation: bounceBarScale 0.5s ease-in-out infinite alternate;
+}
+
+.fx-mini-bounce-bar:nth-child(1) { animation-delay: 0.0s; }
+.fx-mini-bounce-bar:nth-child(2) { animation-delay: 0.15s; }
+.fx-mini-bounce-bar:nth-child(3) { animation-delay: 0.3s; }
+.fx-mini-bounce-bar:nth-child(4) { animation-delay: 0.1s; }
+.fx-mini-bounce-bar:nth-child(5) { animation-delay: 0.25s; }
+.fx-mini-bounce-bar:nth-child(6) { animation-delay: 0.4s; }
+
+@keyframes bounceBarScale {
+  0% { transform: scaleY(0.15); }
+  100% { transform: scaleY(1); }
+}
+
+.fx-close-btn-flash {
+  transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-snap);
+}
+
+@media (hover: hover) {
+  .fx-close-btn-flash:hover {
+    border-color: #FF2D55 !important;
+    color: #FF2D55 !important;
+    animation: closeFlash 0.2s var(--ease-snap);
+  }
+}
+
+@keyframes closeFlash {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* Cursor Blink Utility */
+.cursor-blink {
+  animation: cursorBlinkAnim 0.8s steps(2, start) infinite;
+}
+
+@keyframes cursorBlinkAnim {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   9. GLOBAL ACCESSIBILITY & FOCUS-VISIBLE STATES
+   -------------------------------------------------------------------------- */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent, #ffffff) !important;
+  outline-offset: 2px !important;
+  transition: outline-offset var(--dur-fast) var(--ease-snap);
+}
+
+/* --------------------------------------------------------------------------
+   10. PREFERS-REDUCED-MOTION BLOCK (Strict Compliance)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .screen-view-enter,
+  .screen-view-container[data-direction="forward"],
+  .screen-view-container[data-direction="back"],
+  .fx-title-enter,
+  .fx-count-tick,
+  .fx-clock-tick.ticking,
+  .fx-speed-testing,
+  .fx-speed-online,
+  .fx-speed-offline,
+  .fx-loading-container,
+  .skeleton-shimmer-bar,
+  .stagger-item,
+  .card-radio-surface:hover,
+  .card-radio-surface:hover::after,
+  .fx-mini-eq-bar,
+  .fx-genre-title-reveal,
+  .heart-pop,
+  .fx-heart-ripple::before,
+  .fx-empty-tower::before,
+  .fx-empty-tower::after,
+  .fx-topbar-item,
+  .fx-freq-numeral.changing,
+  .fx-badge-shake,
+  .fx-station-icon-snap.snap,
+  .fx-station-name.changing,
+  .now-playing-bar.playing,
+  .fx-marker-glow.playing::after,
+  .fx-connecting-sweep::after,
+  .fx-counter-roll.ticked,
+  .fx-mini-player-slide,
+  .fx-mini-bounce-bar,
+  .cursor-blink {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .card-radio-surface::after {
+    display: none !important;
+  }
+
+  .fx-playing-top-bar {
+    transition: none !important;
+  }
+
+  .fx-freq-marker {
+    transition: none !important;
+  }
+}
